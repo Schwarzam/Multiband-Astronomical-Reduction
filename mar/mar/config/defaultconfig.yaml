@@ -1,0 +1,299 @@
+config:
+  THREADS: 10 ## Minimum 2 threads
+  PROCESSES: 10
+  FPACK_TILES: True
+  FPACK_PROCESSED: True
+  USE_PSFEX: True                         #MarServer - IF true, run psfex to get fwhmmean and other keys
+  USE_GPU: False                           #MarServer - experimental gpu use on mask correction
+  FILTER_SATELLITE : True #Do satellite filter mask #### MAR SERVER FEATURE
+  REMOVE_FROM_IND_HEADER : ['T80S', 'MAR DET OUT OV', 'MAR DET OUT PR']
+
+Scan:
+  USE_OVERSCAN_X: True
+  USE_PRESCAN_X : False
+  USE_OVERSCAN_Y: False
+  USE_PRESCAN_Y: False
+  OVSC_NPIXELS_X : 8        ## NUMBER OF SUPERPIXELS in X direction
+  OVSC_NPIXELS_Y : 8        ## NUMBER OF SUPERPIXELS in Y direction
+  OVSC_IDEN_X : OVSCY         ## Identifier in header for overscan along X axis
+  OVSC_IDEN_Y : OVSCX         ## Identifier in header for overscan along Y axis
+  PRSC_IDEN_X : PRSCY         ## Identifier in header for prscan along X axis
+  PRSC_IDEN_Y : PRSCX         ## Identifier in header for prscan along Y axis
+  FITFUNCTION_X : "polynomial" # Function to be fitted to the overscan/prescan data [spline, polynomial, none]
+                               # "none" will use the median of every over o prescan column or line
+  FITFUNCTION_Y : "polynomial" # Function to be fitted to the overscan/prescan data [spline, polynomial, none]
+                                 # "none" will use the median of every over o prescan column or line
+  POLYDEG_X : 1           # degree of the polynomial used to correctover or prescan
+  POLYDEG_Y : 1           # degree of the polynomial used to correctover or prescan
+
+  DIRECTION : x
+  XCORRECT : False 
+  USE_OVERSCAN : True   ## correct bias using OVERSCAN data
+  USE_PRESCAN : True   ## correct bias using PRESCAN data
+  COR : strict ## strict, useone, allownotuse 
+
+  OVERSCAN_FIX_BAD_PIXELS_COLUMNS_X  : True       # Bad columns are located using the collapsed 1d-array. Those are replaced in the 2-d
+  OVERSCAN_FIX_BAD_PIXELS_COLUMNS_Y  : False      # Bad columns are located using the collapsed 1d-array. Those are replaced in the 2-d
+                                                  # overscan array using the user defined method.
+  OVERSCAN_INTERPOLATION_METHOD_X : "medianvalue" # Method to interpolate the located bad pixels (only for those located in the step 1. above).
+  OVERSCAN_INTERPOLATION_METHOD_Y : "medianvalue" # Method to interpolate the located bad pixels (only for those located in the step 1. above).
+                                                  # This method is applied to correct complete columns or lines of bad pixels.
+                                                  #       medianvalue  - replace by the median value in overscan
+                                                  #       medianfilter - use a median filter masking out the bad pixels
+  CCD_ORDER : !!python/list [[1,2,3,4,5,6,7,8],[9,10,11,12,13,14,15,16]]
+
+  OVERSCAN_CORRECT_IND_PIXELS_X  : True           # Individual bad pixels are located in overscan areas on the corrected using linear interpolation
+  OVERSCAN_CORRECT_IND_PIXELS_Y  : True           # Individual bad pixels are located in overscan areas on the corrected using linear interpolation
+
+
+Superflat:
+  CF_SUPERFLAT_CORRECTION: offset
+
+Fringe:
+  FILE_PATTERNS: ['SPLUS', 'MC', 'STRIPE82', 'HYDRA']
+  EXCLUDE_PATTERS: ['GAL', 'SHORTS']
+
+  FILTERS: ["Z"]
+
+  SMOOTHSIZE: 31
+  BLOCKAVGX: 16
+  BLOCKAVGY: 16
+
+Reduction:
+  CAT_BACK_FILTERSIZE:  3        # SExtractor BACK_FILTERSIZE for cosmic rays
+  CAT_BACK_SIZE:  256      # SExtractor BACK_SIZE for cosmic rays
+  CAT_DETECT_THRESH:  1.5
+  CAT_DETECT_MINAREA: 5 
+  CAT_REFERENCE_APER:  6  # reference aperture for photometry
+  #                        # (in arcsec diameter)
+  CAT_ZEROPOINT: 25.0  # Zero point to compute instrumental magnitudes
+  FINAL_INDIVCAT_INCLUDE_WINPARAMS : False
+
+  DAILY_ASTROM_USE_WINPARAMS : False
+
+
+  ## Sextractor Catalogs to Astrometry
+  FWHM_ISOAREAMIN:  40
+  FWHM_ELLIPMAX:  0.2
+  FWHM_NOBJECTS:  100
+  MAX_SNR: 1000
+  FWHM_SNmin: 30 
+  
+  CAT_NGRID: 12 ## number of grid cells in X and Y
+  OBJECTS_PER_CELL: 8 ## number of objects to look in a cell
+  CAT_MARGIN: 5 ## minimum of stars to uniform stars found in grid
+
+
+  PIXSCALE: 0.55
+
+  PIXCOR_MASKVALUES : 1           # Code with the values of the mask to be interpolated
+                                #        1 : bad pixels
+                                #        2 : Saturated pixels
+                                #        4 : Cosmic rays
+                                #        8 : Satellite trajectories
+                                #        32 : Pixels in a hole in any of the back subtraction frame (fringe pattern, background pattern)
+                                #        64 : Pixel inside a detected object                                  
+                  
+  PIXCOR_MODE : "morphology"      # Method to find the regions to interpolate ["maxarea", "morphology"]
+  PIXCOR_INTERPOLATOR : "idw"     # Method to perform interpolation ["idw", "meanmask", "fixpix", "medmask"]
+  PIXCOR_MAXAREA : 3              # When mode "maxarea", only masked regions with less or equal than **maxarea**
+                                  # pixels are masked
+
+  HOUGH_LINES_THRESH: 100    ## Used to determine lines on image for satellite tracks detection
+  HOUGH_LINES_MINLENGTH: 20
+  HOUGH_LINES_MAXGAP: 20
+  SAT_DETECT_MINAREA: 10
+
+  SAT_ELONGATION: 20
+  SAT_ELLIPTICITY: 0.92
+
+
+  
+
+Scamp:
+  ASTRREF_SERVER : vizier.u-strasbg.fr
+  
+  SCAMP_CHECKPLOT_DEV : SVG
+  FWHM_THRESHOLDS:  '0.0,281.8'   # the thresholds to select stars in units indicated in FWHM_THRESHOLDS_UNITS.
+  SN_THRESHOLDS:  '10.0,200.0'
+  DISTORT_DEGREES:  3
+  MATCH : 'Y'
+  MATCH_FLIPPED : 'N'
+  CROSSID_RADIUS: 10
+  POSITION_MAXERR  : 5
+  PIXSCALE_MAXERR : 1.2
+  POSANGLE_MAXERR : 5
+  MATCH_RESOL : 0
+  ASTREF_CATALOG: 'GAIA-DR2'
+  ASTREFMAG_LIMITS: '-99.0,18'
+  ASTRCLIP_NSIGMA: 1.0
+
+  TIMEOUT: 520
+  NTHREADS: 3
+
+Swarp:
+  NTHREADS : 3
+  TIMEOUT : 3000
+  FPACK_INTERMEDIATE: True                #MarServer - Only apply if keep intermediate = True
+  KEEP_INTERMEDIATE_FITS: False           #MarServer - param
+
+
+PSFex:
+  VIGNET_BACK_FILTERSIZE: 5
+  VIGNET_BACK_SIZE: 512
+  VIGNET_DETECT_THRESH: 10.0
+  VIGNET_ANALYSIS_THRESH: 10.0
+  VIGNET_DETECT_MINAREA: 10
+  VIGNET_PHOT_FLUXFRAC: 0.5
+  VIGNET_PHOT_APERTURES: [6, 30.0, 5.0, 7.0, 10.0, 35.0]
+
+  PSFEX_CAT_MAX_MAGERR_AUTO: 0.01
+  PSFEX_CAT_MAX_ELLIPTICITY: 0.2
+  PSFEX_CAT_MIN_ISOAREA_IMAGE: 40
+  PSFEX_CAT_MAX_SNR_WIN: 1000
+
+  PSFEX_BASIS_TYPE: 'PIXEL_AUTO'
+  PSFEX_BASIS_NUMBER: 20
+  PSFEX_PSF_SAMPLING: 0.0
+  PSFEX_PSF_SIZE: '25, 25'
+  PSFEX_PSFVAR_DEGREES: 3
+  PSFEX_PSFVAR_NSNAP: 9
+  PSFEX_HOMOPSF_PARAMS: [5.0, 5.0]
+
+  TIMEOUT: 1800
+  NTHREADS : 3
+  
+
+Sextractor:
+  TIMEOUT : 800
+  NTHREADS : 3
+
+Thumbs:
+  TYPE: 'logistic'
+  SHRINK: 5
+  TIMEOUT: 60
+
+
+Instrument:
+  INSTRUMENT: T80S
+
+  PIXSCALE: 0.55
+  MASTER_GAIN: 0.95
+  MASTER_RNOISE: 3.43
+
+  SATURATE: 65535
+  HIERARCH MAR DET CHIPID : 0
+  HIERARCH MAR DET OUTPUTS :  16
+  HIERARCH MAR DET OUT1 PRSCX: '[1:27,1:4670]'
+  HIERARCH MAR DET OUT1 PRSCY: ''
+  HIERARCH MAR DET OUT2 PRSCX: '[1207:1233,1:4670]'
+  HIERARCH MAR DET OUT2 PRSCY: ''
+  HIERARCH MAR DET OUT3 PRSCX: '[2413:2439,1:4670]'
+  HIERARCH MAR DET OUT3 PRSCY: ''
+  HIERARCH MAR DET OUT4 PRSCX: '[3619:3645,1:4670]'
+  HIERARCH MAR DET OUT4 PRSCY: ''
+  HIERARCH MAR DET OUT5 PRSCX: '[6004:6030,1:4670]'
+  HIERARCH MAR DET OUT5 PRSCY: ''
+  HIERARCH MAR DET OUT6 PRSCX: '[7210:7236,1:4670]'
+  HIERARCH MAR DET OUT6 PRSCY: ''
+  HIERARCH MAR DET OUT7 PRSCX: '[8416:8442,1:4670]'
+  HIERARCH MAR DET OUT7 PRSCY: ''
+  HIERARCH MAR DET OUT8 PRSCX: '[9622:9648,1:4670]'
+  HIERARCH MAR DET OUT8 PRSCY: ''
+  HIERARCH MAR DET OUT9 PRSCX: '[1:27,4671:9340]'
+  HIERARCH MAR DET OUT9 PRSCY: ''
+  HIERARCH MAR DET OUT10 PRSCX: '[1207:1233,4671:9340]'
+  HIERARCH MAR DET OUT10 PRSCY: ''
+  HIERARCH MAR DET OUT11 PRSCX: '[2413:2439,4671:9340]'
+  HIERARCH MAR DET OUT11 PRSCY: ''
+  HIERARCH MAR DET OUT12 PRSCX: '[3619:3645,4671:9340]'
+  HIERARCH MAR DET OUT12 PRSCY: ''
+  HIERARCH MAR DET OUT13 PRSCX: '[6004:6030,4671:9340]'
+  HIERARCH MAR DET OUT13 PRSCY: ''
+  HIERARCH MAR DET OUT14 PRSCX: '[7210:7236,4671:9340]'
+  HIERARCH MAR DET OUT14 PRSCY: ''
+  HIERARCH MAR DET OUT15 PRSCX: '[8416:8442,4671:9340]'
+  HIERARCH MAR DET OUT15 PRSCY: ''
+  HIERARCH MAR DET OUT16 PRSCX: '[9622:9648,4671:9340]'
+  HIERARCH MAR DET OUT16 PRSCY: ''
+  HIERARCH MAR DET OUT1 OVSCX: '[1180:1206,1:4670]'
+  HIERARCH MAR DET OUT1 OVSCY: '[1:1206,4617:4670]'
+  HIERARCH MAR DET OUT2 OVSCX: '[2386:2412,1:4670]'
+  HIERARCH MAR DET OUT2 OVSCY: '[1207:2412,4617:4670]'
+  HIERARCH MAR DET OUT3 OVSCX: '[3592:3618,1:4670]'
+  HIERARCH MAR DET OUT3 OVSCY: '[2413:3618,4617:4670]'
+  HIERARCH MAR DET OUT4 OVSCX: '[4798:4824,1:4670]'
+  HIERARCH MAR DET OUT4 OVSCY: '[3619:4824,4617:4670]'
+  HIERARCH MAR DET OUT5 OVSCX: '[4825:4851,1:4670]'
+  HIERARCH MAR DET OUT5 OVSCY: '[4825:6030,4617:4670]'
+  HIERARCH MAR DET OUT6 OVSCX: '[6031:6057,1:4670]'
+  HIERARCH MAR DET OUT6 OVSCY: '[6031:7236,4617:4670]'
+  HIERARCH MAR DET OUT7 OVSCX: '[7237:7263,1:4670]'
+  HIERARCH MAR DET OUT7 OVSCY: '[7237:8442,4617:4670]'
+  HIERARCH MAR DET OUT8 OVSCX: '[8443:8469,1:4670]'
+  HIERARCH MAR DET OUT8 OVSCY: '[8443:9648,4617:4670]'
+  HIERARCH MAR DET OUT9 OVSCX: '[1180:1206,4671:9340]'
+  HIERARCH MAR DET OUT9 OVSCY: '[1:1206,4671:4724]'
+  HIERARCH MAR DET OUT10 OVSCX: '[2386:2412,4671:9340]'
+  HIERARCH MAR DET OUT10 OVSCY: '[1207:2412,4671:4724]'
+  HIERARCH MAR DET OUT11 OVSCX: '[3592:3618,4671:9340]'
+  HIERARCH MAR DET OUT11 OVSCY: '[2413:3618,4671:4724]'
+  HIERARCH MAR DET OUT12 OVSCX: '[4798:4824,4671:9340]'
+  HIERARCH MAR DET OUT12 OVSCY: '[3619:4824,4671:4724]'
+  HIERARCH MAR DET OUT13 OVSCX: '[4825:4851,4671:9340]'
+  HIERARCH MAR DET OUT13 OVSCY: '[4825:6030,4671:4724]'
+  HIERARCH MAR DET OUT14 OVSCX: '[6031:6057,4671:9340]'
+  HIERARCH MAR DET OUT14 OVSCY: '[6031:7236,4671:4724]'
+  HIERARCH MAR DET OUT15 OVSCX: '[7237:7263,4671:9340]'
+  HIERARCH MAR DET OUT15 OVSCY: '[7237:8442,4671:4724]'
+  HIERARCH MAR DET OUT16 OVSCX: '[8443:8469,4671:9340]'
+  HIERARCH MAR DET OUT16 OVSCY: '[8443:9648,4671:4724]'
+  HIERARCH MAR DET OUT1 ID: 00
+  HIERARCH MAR DET OUT2 ID: 01
+  HIERARCH MAR DET OUT3 ID: 02
+  HIERARCH MAR DET OUT4 ID: 03
+  HIERARCH MAR DET OUT5 ID: 04
+  HIERARCH MAR DET OUT6 ID: 05
+  HIERARCH MAR DET OUT7 ID: 06
+  HIERARCH MAR DET OUT8 ID: 07
+  HIERARCH MAR DET OUT9 ID: 08
+  HIERARCH MAR DET OUT10 ID: 09
+  HIERARCH MAR DET OUT11 ID: 10
+  HIERARCH MAR DET OUT12 ID: 11
+  HIERARCH MAR DET OUT13 ID: 12
+  HIERARCH MAR DET OUT14 ID: 13
+  HIERARCH MAR DET OUT15 ID: 14
+  HIERARCH MAR DET OUT16 ID: 15
+  HIERARCH MAR DET OUT1 IMSC: '[28:1179,1:4616]'
+  HIERARCH MAR DET OUT2 IMSC: '[1234:2385,1:4616]'
+  HIERARCH MAR DET OUT3 IMSC: '[2440:3591,1:4616]'
+  HIERARCH MAR DET OUT4 IMSC: '[3646:4797,1:4616]'
+  HIERARCH MAR DET OUT5 IMSC: '[4852:6003,1:4616]'
+  HIERARCH MAR DET OUT6 IMSC: '[6058:7209,1:4616]'
+  HIERARCH MAR DET OUT7 IMSC: '[7264:8415,1:4616]'
+  HIERARCH MAR DET OUT8 IMSC: '[8470:9621,1:4616]'
+  HIERARCH MAR DET OUT9 IMSC: '[28:1179,4725:9340]'
+  HIERARCH MAR DET OUT10 IMSC: '[1234:2385,4725:9340]'
+  HIERARCH MAR DET OUT11 IMSC: '[2440:3591,4725:9340]'
+  HIERARCH MAR DET OUT12 IMSC: '[3646:4797,4725:9340]'
+  HIERARCH MAR DET OUT13 IMSC: '[4852:6003,4725:9340]'
+  HIERARCH MAR DET OUT14 IMSC: '[6058:7209,4725:9340]'
+  HIERARCH MAR DET OUT15 IMSC: '[7264:8415,4725:9340]'
+  HIERARCH MAR DET OUT16 IMSC: '[8470:9621,4725:9340]'    
+  HIERARCH MAR DET OUT1 GAIN: 0.96
+  HIERARCH MAR DET OUT2 GAIN: 0.96
+  HIERARCH MAR DET OUT3 GAIN: 0.96
+  HIERARCH MAR DET OUT4 GAIN: 0.94
+  HIERARCH MAR DET OUT5 GAIN: 0.94
+  HIERARCH MAR DET OUT6 GAIN: 0.94
+  HIERARCH MAR DET OUT7 GAIN: 0.92
+  HIERARCH MAR DET OUT8 GAIN: 0.93
+  HIERARCH MAR DET OUT9 GAIN: 0.97
+  HIERARCH MAR DET OUT10 GAIN: 0.96
+  HIERARCH MAR DET OUT11 GAIN: 0.95
+  HIERARCH MAR DET OUT12 GAIN: 0.96
+  HIERARCH MAR DET OUT13 GAIN: 0.96
+  HIERARCH MAR DET OUT14 GAIN: 0.96
+  HIERARCH MAR DET OUT15 GAIN: 0.96
+  HIERARCH MAR DET OUT16 GAIN: 0.95
+ 

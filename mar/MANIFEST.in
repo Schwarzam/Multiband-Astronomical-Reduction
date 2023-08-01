@@ -1,0 +1,4 @@
+include mar/config/sextractor/*
+include mar/config/enviroment.yaml
+include mar/config/defaultconfig.yaml
+include mar/

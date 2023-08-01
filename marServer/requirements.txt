@@ -1,0 +1,9 @@
+django-cors-headers
+django
+django-rest-knox
+
+psycopg2-binary
+django-extensions
+
+pandas
+matplotlib

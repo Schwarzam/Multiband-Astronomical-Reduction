@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+content {
+  padding-top: 10px;
+  margin-top: 20px;
+  position: relative;
+  width: calc(100% - 256px);
+  float: right;
+}
+
+width {
+  box-sizing: border-box;
+}
