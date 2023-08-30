@@ -115,7 +115,7 @@ sudo docker-compose run --rm server python3.11 manage.py migrate
 sudo docker-compose run --rm server python3.11 manage.py createsuperuser
 ```
 
-Finally run these to get the container up and running:
+Finally run this to get the container up and running:
 
 ```bash
 sudo docker-compose up
