@@ -127,6 +127,8 @@ def get_current_config():
             curr.save()
         curr_path = os.path.join(settings.ROOTFITS, "CONFIG", curr.name)
 
+        MarManager.INFO(f"Loaded current config: {curr.name}")
+
     res = mar.env.load_config(curr_path)
     if res is not None:
         MarManager.INFO(res)

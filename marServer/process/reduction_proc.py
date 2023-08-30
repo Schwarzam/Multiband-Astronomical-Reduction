@@ -1180,9 +1180,13 @@ def swarp(fil, sci_by_filter):
     # Init config
     config = {
         "COPY_KEYWORDS": "EXPTIME,OBJECTDATE-OBS,AIRMASS,PI-COI,TELESCOP,INSTRUME,FILTER,PRJ_ID,PRJ_VER",
-        "SUBTRACT_BACK": "Y", "BACK_FILTERSIZE": 5, "BACK_SIZE": 1024, "PIXEL_SCALE": 0.55, "IMAGE_SIZE": 11000,
+        "SUBTRACT_BACK": mar.env.marConf['Swarp']['FIRST_RUN_SUBTRACT_BACK'],
+        "BACK_FILTERSIZE": mar.env.marConf['Swarp']['FIRST_RUN_BACK_FILTERSIZE'], 
+        "BACK_SIZE": mar.env.marConf['Swarp']['FIRST_RUN_BACK_SIZE'],
+        "PIXEL_SCALE": mar.env.marConf['Instrument']['PIXSCALE'], 
+        "IMAGE_SIZE": mar.env.marConf['Swarp']['IMAGE_SIZE'],
         "CENTER_TYPE": "MANUAL", "PIXELSCALE_TYPE": "MANUAL", "WEIGHT_TYPE": "MAP_WEIGHT",
-        "CENTER": f'{ra}, {dec}', "GAIN_DEFAULT": "0.95", "CELESTIAL_TYPE": "EQUATORIAL",
+        "CENTER": f'{ra}, {dec}', "GAIN_DEFAULT": mar.env.marConf['Instrument']['MASTER_GAIN'], "CELESTIAL_TYPE": "EQUATORIAL",
         "COMBINE_TYPE": "MEDIAN"}
 
     config['WEIGHT_IMAGE'] = masks
@@ -1196,9 +1200,12 @@ def swarp(fil, sci_by_filter):
     s.run()
 
     config = {"COPY_KEYWORDS": "OBJECTDATE-OBS,AIRMASS,PI-COI,TELESCOP,INSTRUME,FILTER,PRJ_ID,PRJ_VER",
-                        "BACK_FILTERSIZE": 5, "BACK_SIZE": 1024, "PIXEL_SCALE": 0.55, "IMAGE_SIZE": 11000,
+                        "BACK_FILTERSIZE": mar.env.marConf['Swarp']['SECOND_RUN_BACK_FILTERSIZE'], 
+                        "BACK_SIZE": mar.env.marConf['Swarp']['SECOND_RUN_BACK_SIZE'], 
+                        "PIXEL_SCALE": mar.env.marConf['Instrument']['PIXSCALE'], 
+                        "IMAGE_SIZE": mar.env.marConf['Swarp']['IMAGE_SIZE'],
                         "CENTER_TYPE": "MANUAL", "PIXELSCALE_TYPE": "MANUAL", "WEIGHT_TYPE": "MAP_WEIGHT",
-                        "CENTER": f'{ra}, {dec}', "GAIN_DEFAULT": "0.95", "RESAMPLE": "N",
+                        "CENTER": f'{ra}, {dec}', "GAIN_DEFAULT": mar.env.marConf['Instrument']['MASTER_GAIN'], "RESAMPLE": "N",
                         "CELESTIAL_TYPE": "EQUATORIAL", "COMBINE_TYPE": "WEIGHTED", "SUBTRACT_BACK": "N"}
 
     config['WEIGHT_IMAGE'] = weights

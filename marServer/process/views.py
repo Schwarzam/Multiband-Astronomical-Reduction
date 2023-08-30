@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from files.models import FinalTiles, IndividualFile
+from files.models import CurrentConfig
 
 from process.models import Operations
 from .reduction_proc import Reduction_Instance
@@ -11,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated
 
+from django.conf import settings
 from mar import env
 import os
 
@@ -81,6 +83,36 @@ def set_item_conf(request):
 
     env.setItemConf(request.data['section'], request.data['item'], value)
     return Response({'msg': 'Set value.'})
+
+
+@api_view(['POST'])
+@renderer_classes([JSONRenderer])
+@permission_classes((IsAuthenticated, ))
+def set_conf(request):
+    if 'config_name' not in request.data:
+        return Response({'error': 'Must fill config_name values.'})
+
+    config_name = request.data['config_name']
+    config_path = os.path.join(settings.ROOTFITS, "CONFIG", config_name)
+
+    curr = CurrentConfig.objects.filter(current=True).first()
+    if curr:
+        curr.current = False
+        curr.save()
+
+    if not os.path.exists(config_path):
+        return Response({'error': 'Config file does not exist.'})
+
+    try:
+        env.load_config(config_path)
+    except:
+        return Response({'error': 'Could not load config file.'})
+
+    conf = CurrentConfig.objects.get_or_create(name=config_name)[0]
+    conf.current = True
+    conf.save()
+
+    return Response({'msg': 'Loaded config file.'})
 
 @api_view(['POST'])
 @renderer_classes([JSONRenderer])

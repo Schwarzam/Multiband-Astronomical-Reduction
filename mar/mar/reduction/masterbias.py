@@ -17,11 +17,6 @@ from mar.utilities import get_filename
 
 from mar.wrappers import make_thumb, delete_file
 
-try:
-	configVal = mar.AttributeDict(mar.env.marConf.Instrument)
-except:
-	print('Could not get instrument config.')
-
 def absoluteFilePaths(directory):
 	paths = []
 	for dirpath,_,filenames in os.walk(directory):
@@ -76,11 +71,17 @@ class MasterBias:
 			perAmp (bool, optional): run iraf per amplifier. Defaults to False.
 		"""		
 		MarManager.INFO("Starting MasterBias Class")
+
+		try:
+			self.configVal = mar.AttributeDict(mar.env.marConf.Instrument)
+		except:
+			print('Could not get instrument config.')
+
 		self.outdir = outdir
 		self.perAmp = perAmp
 
-		ampSize = mar.utilities.conversion.str2coordinate(configVal['HIERARCH MAR DET OUT1 IMSC'])
-		self.amps = configVal['HIERARCH MAR DET OUTPUTS']
+		ampSize = mar.utilities.conversion.str2coordinate(self.configVal['HIERARCH MAR DET OUT1 IMSC'])
+		self.amps = self.configVal['HIERARCH MAR DET OUTPUTS']
 
 		self.ampSize = (ampSize[1] - ampSize[0], ampSize[3] - ampSize[2])
 		self.orders = np.array([[1, 2, 3, 4, 5, 6, 7, 8], [9, 10, 11, 12, 13, 14, 15, 16]])
@@ -169,8 +170,8 @@ class MasterBias:
 		Args:
 			delete_after (bool, optional): Delete intermediate files after done. Defaults to True.
 		"""		
-		rdnoise = configVal['MASTER_RNOISE']
-		gain = configVal['MASTER_GAIN']
+		rdnoise = self.configVal['MASTER_RNOISE']
+		gain = self.configVal['MASTER_GAIN']
 
 		MarManager.INFO(f"Starting Iraf IMCOMBINE on BIAS files starting with AMP(prefix) on outdir.")
 		files = [f for f in absoluteFilePaths(self.outdir) if (isfile(join(self.outdir, f)) and '.fits' in f and f.split('/')[-1].startswith('AMP'))]
@@ -196,11 +197,11 @@ class MasterBias:
 				iraf.flpr()
 				output = os.path.join(self.outdir, "MasterBias_" + str(amp) + '.fits')
 					
-				rdnoise = configVal['MASTER_RNOISE']
-				gain = configVal['MASTER_GAIN']
+				rdnoise = self.configVal['MASTER_RNOISE']
+				gain = self.configVal['MASTER_GAIN']
 
 				if self.perAmp:
-					gain = float(configVal[f'HIERARCH MAR DET OUT{amp} GAIN'])
+					gain = float(self.configVal[f'HIERARCH MAR DET OUT{amp} GAIN'])
 
 				self.tmpfiles = self.tmpfiles + [output]
 
@@ -257,14 +258,14 @@ class MasterBias:
 			iraf.flpr()
 			output = os.path.join(self.outdir, "MasterBias_total.fits")
 				
-			rdnoise = configVal['MASTER_RNOISE']
-			gain = configVal['MASTER_GAIN']
+			rdnoise = self.configVal['MASTER_RNOISE']
+			gain = self.configVal['MASTER_GAIN']
 
 			self.tmpfiles = self.tmpfiles + [output]
 
 
 			iraf.imcombine(input='@' + inputlst,
-								   output=output, headers="", statsec = configVal['HIERARCH MAR DET OUT1 IMSC'],
+								   output=output, headers="", statsec = self.configVal['HIERARCH MAR DET OUT1 IMSC'],
 								   bpmasks="", rejmasks="", nrejmasks="",
 								   expmasks="", sigmas="",
 								   combine="median", reject="ccdclip", project="no",

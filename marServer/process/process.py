@@ -11,6 +11,8 @@ from django.conf import settings
 import os
 import time
 
+from files.models import CurrentConfig
+
 def full_reduction(num, code):
     MarManager.INFO(f"Starting Full reduction process on Block {num}")
 
@@ -137,6 +139,10 @@ def doScan(path, contains=None):
 
 def queueRunner(task):
     if (task):
+        conf = CurrentConfig.objects.filter(current = True).first()
+        MarManager.INFO(f"Starting {task['function']} process on Block {task['block']}")
+        MarManager.INFO(f"Running with {conf.name}")
+
         try: task['block'] = int(task['block'])
         except: pass
         

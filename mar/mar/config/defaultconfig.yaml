@@ -131,34 +131,48 @@ Scamp:
   TIMEOUT: 520
   NTHREADS: 3
 
+  DETECT_THRESH_CAT: 2                            # SExtractor DETECT_THRESH for catalog
+  BACK_FILTERSIZE_CAT: 6                          # SExtractor BACK_FILTERSIZE for catalog
+  BACK_SIZE_CAT: 64                               # SExtractor BACK_SIZE for catalog
+  FILTER_CAT: "N"                                 # SExtractor FILTER for catalog
+  PHOT_APERTURES_CAT: "(1.4, 20, 90)"
+
 Swarp:
   NTHREADS : 3
   TIMEOUT : 3000
-  FPACK_INTERMEDIATE: True                #MarServer - Only apply if keep intermediate = True
-  KEEP_INTERMEDIATE_FITS: False           #MarServer - param
+  FPACK_INTERMEDIATE: True                        #MarServer - Only apply if keep intermediate = True
+  KEEP_INTERMEDIATE_FITS: False                   #MarServer - param
+
+  FIRST_RUN_SUBTRACT_BACK: "Y"                    #MarServer - SWARP first run parameter
+  FIRST_RUN_BACK_SIZE: 1024                       #MarServer - SWARP first run parameter
+  FIRST_RUN_BACK_FILTERSIZE: 5                    #MarServer - SWARP first run parameter
+  IMAGE_SIZE: 11000                               #MarServer - SWARP first run parameter
+
+  SECOND_RUN_BACK_FILTERSIZE: 5                   #MarServer - SWARP second run parameter
+  SECOND_RUN_BACK_SIZE: 512                       #MarServer - SWARP second run parameter
 
 
 PSFex:
-  VIGNET_BACK_FILTERSIZE: 5
-  VIGNET_BACK_SIZE: 512
-  VIGNET_DETECT_THRESH: 10.0
-  VIGNET_ANALYSIS_THRESH: 10.0
-  VIGNET_DETECT_MINAREA: 10
-  VIGNET_PHOT_FLUXFRAC: 0.5
+  VIGNET_BACK_FILTERSIZE: 5                       # SExtractor BACK_FILTERSIZE for vignets
+  VIGNET_BACK_SIZE: 512                           # SExtractor BACK_SIZE for vignets
+  VIGNET_DETECT_THRESH: 10.0                      # SExtractor DETECT_THRESH for vignets
+  VIGNET_ANALYSIS_THRESH: 10.0                    # SExtractor ANALYSIS_THRESH for vignets
+  VIGNET_DETECT_MINAREA: 10                       # SExtractor DETECT_MINAREA for vignets
+  VIGNET_PHOT_FLUXFRAC: 0.5                       # SExtractor PHOT_FLUXFRAC for vignets
   VIGNET_PHOT_APERTURES: [6, 30.0, 5.0, 7.0, 10.0, 35.0]
 
-  PSFEX_CAT_MAX_MAGERR_AUTO: 0.01
-  PSFEX_CAT_MAX_ELLIPTICITY: 0.2
-  PSFEX_CAT_MIN_ISOAREA_IMAGE: 40
-  PSFEX_CAT_MAX_SNR_WIN: 1000
+  PSFEX_CAT_MAX_MAGERR_AUTO: 0.01                 # PSFex max MAGERR_AUTO for catalog
+  PSFEX_CAT_MAX_ELLIPTICITY: 0.2                  # PSFex max ELLIPTICITY for catalog
+  PSFEX_CAT_MIN_ISOAREA_IMAGE: 40                 # PSFex min ISOAREA_IMAGE for catalog
+  PSFEX_CAT_MAX_SNR_WIN: 1000                     # PSFex max SNR_WIN for catalog
 
-  PSFEX_BASIS_TYPE: 'PIXEL_AUTO'
-  PSFEX_BASIS_NUMBER: 20
-  PSFEX_PSF_SAMPLING: 0.0
-  PSFEX_PSF_SIZE: '25, 25'
-  PSFEX_PSFVAR_DEGREES: 3
-  PSFEX_PSFVAR_NSNAP: 9
-  PSFEX_HOMOPSF_PARAMS: [5.0, 5.0]
+  PSFEX_BASIS_TYPE: 'PIXEL_AUTO'                  # PSFex basis type
+  PSFEX_BASIS_NUMBER: 20                          # PSFex basis number
+  PSFEX_PSF_SAMPLING: 0.0                         # PSFex PSF sampling
+  PSFEX_PSF_SIZE: '25, 25'                        # PSFex PSF size
+  PSFEX_PSFVAR_DEGREES: 3                         # PSFex PSFVAR degrees
+  PSFEX_PSFVAR_NSNAP: 9                           # PSFex PSFVAR nsnap
+  PSFEX_HOMOPSF_PARAMS: [5.0, 5.0]                # PSFex HOMOPSF params
 
   TIMEOUT: 1800
   NTHREADS : 3
@@ -279,21 +293,4 @@ Instrument:
   HIERARCH MAR DET OUT13 IMSC: '[4852:6003,4725:9340]'
   HIERARCH MAR DET OUT14 IMSC: '[6058:7209,4725:9340]'
   HIERARCH MAR DET OUT15 IMSC: '[7264:8415,4725:9340]'
-  HIERARCH MAR DET OUT16 IMSC: '[8470:9621,4725:9340]'    
-  HIERARCH MAR DET OUT1 GAIN: 0.96
-  HIERARCH MAR DET OUT2 GAIN: 0.96
-  HIERARCH MAR DET OUT3 GAIN: 0.96
-  HIERARCH MAR DET OUT4 GAIN: 0.94
-  HIERARCH MAR DET OUT5 GAIN: 0.94
-  HIERARCH MAR DET OUT6 GAIN: 0.94
-  HIERARCH MAR DET OUT7 GAIN: 0.92
-  HIERARCH MAR DET OUT8 GAIN: 0.93
-  HIERARCH MAR DET OUT9 GAIN: 0.97
-  HIERARCH MAR DET OUT10 GAIN: 0.96
-  HIERARCH MAR DET OUT11 GAIN: 0.95
-  HIERARCH MAR DET OUT12 GAIN: 0.96
-  HIERARCH MAR DET OUT13 GAIN: 0.96
-  HIERARCH MAR DET OUT14 GAIN: 0.96
-  HIERARCH MAR DET OUT15 GAIN: 0.96
-  HIERARCH MAR DET OUT16 GAIN: 0.95
- 
+  HIERARCH MAR DET OUT16 IMSC: '[8470:9621,4725:9340]'

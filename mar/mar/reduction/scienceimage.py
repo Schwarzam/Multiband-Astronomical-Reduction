@@ -17,12 +17,6 @@ try:
 except:
     print('Could not load pyraf!')
 
-try:
-    marConf = mar.AttributeDict(env.marConf)
-    configVal = mar.AttributeDict(mar.env.marConf.Instrument)
-except:
-    print('Could not load config')
-
 def absoluteFilePaths(directory):
     paths = []
     for dirpath,_,filenames in os.walk(directory):
@@ -65,6 +59,13 @@ class PrepareSciImages:
             compress (bool): Whether to compress the output images or not.
         """
         MarManager.INFO("Starting SCI images Class.")
+
+        try:
+            marConf = mar.AttributeDict(env.marConf)
+            self.configVal = mar.AttributeDict(mar.env.marConf.Instrument)
+        except:
+            print('Could not load config')
+
         self.outdir = outdir
         self.outputfiles = False
         self.outname = ''
@@ -144,12 +145,12 @@ class PrepareSciImages:
         scan.hdu[dataHDU].header = add_moon_summary_header(scan.hdu[dataHDU].header)
        
         if self.gainPerAmp:
-            amps = configVal['HIERARCH MAR DET OUTPUTS']
+            amps = self.configVal['HIERARCH MAR DET OUTPUTS']
             if subtract_bias:
                 scan.hdu[dataHDU].data = scan.hdu[dataHDU].data - np.asarray(self.bias, dtype=np.float32)
 
             for i in range(1,amps+1):
-                areaGain = float(configVal[f'HIERARCH MAR DET OUT{i} GAIN'])
+                areaGain = float(self.configVal[f'HIERARCH MAR DET OUT{i} GAIN'])
 
                 area = mar.image.getAmpArea(i)
                 scan.hdu[dataHDU].data[area[0]:area[1], area[2]:area[3]] *= areaGain

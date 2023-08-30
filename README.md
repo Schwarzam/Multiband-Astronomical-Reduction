@@ -40,7 +40,7 @@ The frontend developed using ReactJS is a interface made from the marServer API,
 
 ### Steps to build and run the containers.
 
-Firstly, you need to have PostgreSQL 12 or higher installed and configured to accept remote connections. This can be done on either your local machine or a remote server. For instructions on how to enable remote access, please refer to this link: https://stackoverflow.com/questions/18580066/how-to-allow-remote-access-to-postgresql-database.
+Firstly, you need to have PostgreSQL 12 or higher installed (good way to install postgresql is described here https://devopscube.com/install-postgresql-on-ubuntu/) and configured to accept remote connections. This can be done on either your local machine or a remote server. For instructions on how to enable remote access, please refer to this link: https://stackoverflow.com/questions/18580066/how-to-allow-remote-access-to-postgresql-database.
 
 ### Database
 

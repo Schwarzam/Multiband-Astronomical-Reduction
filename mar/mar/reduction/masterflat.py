@@ -17,10 +17,6 @@ from mar.config import MarManager
 from mar.utilities import get_filename
 from mar.wrappers import make_thumb, delete_file
 
-try:
-	configVal = mar.AttributeDict(mar.env.marConf.Instrument)
-except:
-	print('Could not get Instrument conf.')
 
 def absoluteFilePaths(directory):
 	paths = []
@@ -59,6 +55,13 @@ class MasterFlat:
 			outdir (str, optional): directory where all results will be saved. Defaults to '/tmp/'.
 		"""	
 		MarManager.INFO("Started Flats Class")
+
+		try:
+			self.configVal = mar.AttributeDict(mar.env.marConf.Instrument)
+		except:
+			print('Could not get Instrument conf.')
+
+
 		self.outdir = outdir
 
 		if folder is not None:
@@ -122,9 +125,9 @@ class MasterFlat:
 			scan.hdu[1].data = scan.hdu[1].data - self.masterbias
 
 		if gainPerAmp:
-			amps = configVal['HIERARCH MAR DET OUTPUTS']
+			amps = self.configVal['HIERARCH MAR DET OUTPUTS']
 			for i in range(1,amps+1):
-				areaGain = float(configVal[f'HIERARCH MAR DET OUT{i} GAIN'])
+				areaGain = float(self.configVal[f'HIERARCH MAR DET OUT{i} GAIN'])
 
 				area = mar.image.getAmpArea(i)
 				scan.hdu[1].data[area[0]:area[1], area[2]:area[3]] *= areaGain
@@ -151,9 +154,9 @@ class MasterFlat:
 		if self.gainPerAmp:
 			gain = 1
 		else:
-			gain = configVal['MASTER_GAIN']
+			gain = self.configVal['MASTER_GAIN']
 
-		rdnoise = configVal['MASTER_RNOISE']
+		rdnoise = self.configVal['MASTER_RNOISE']
 
 
 		files = [f for f in absoluteFilePaths(self.outdir) if (isfile(join(self.outdir, f)) and '.fits' in f and f.split('/')[-1].startswith('OVSC__'))]
@@ -186,7 +189,7 @@ class MasterFlat:
 
 
 		iraf.imcombine(input='@' + inputlst,
-					   output=output, headers="", statsec = configVal['HIERARCH MAR DET OUT1 IMSC'],
+					   output=output, headers="", statsec = self.configVal['HIERARCH MAR DET OUT1 IMSC'],
 					   bpmasks="", rejmasks="", nrejmasks="",
 					   expmasks="", sigmas="",
 					   combine="median", reject="avsigclip", project="no",

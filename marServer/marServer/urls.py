@@ -27,7 +27,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from process.blockHandlers import *
-from process.views import get_queue, remove_queue, get_conf, set_item_conf, get_operations, get_operations_stats
+from process.views import get_queue, remove_queue, get_conf, set_item_conf, get_operations, get_operations_stats, set_conf
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, renderer_classes, permission_classes
@@ -66,6 +66,7 @@ urlpatterns = [
     path('reduction/removeQueue', remove_queue, name ='removeQueue'),
     path('reduction/getConf', get_conf, name ='getConf'),
     path('reduction/setItemConf', set_item_conf, name ='setItemConf'),
+    path('reduction/set_conf', set_conf, name ='set_conf'),
 
     path('reduction/getOperations', get_operations, name ='getOperations'),
 
