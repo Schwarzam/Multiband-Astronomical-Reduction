@@ -11,7 +11,9 @@ Docker configs for each container:
 - marServer (/Dockerfile)
 - Nginx (/docker-compose.yml)
 
-To install Docker-Compose you need to have docker installed, then just download [in their GitHub](https://github.com/docker/compose/releases).
+To install Docker-Compose you need to have docker installed ([docker on ubuntu](https://docs.docker.com/engine/install/ubuntu/)), then just download docker compose [from their GitHub](https://github.com/docker/compose/releases).
+
+*A tip is to download the executable, run **"sudo chmod +x {executable}"** on it and then copy it to something like /usr/bin/docker-compose to call it from anywhere as "docker-compose".*
 
 ---
 
@@ -106,13 +108,17 @@ sudo docker-compose build
 ```
 
 Then run the following to populate the database and create a user (this may need sudo permission):
-
-#### Is important to have a db installed (check Production Database below)
   
 ```bash
 sudo docker-compose run --rm server python3.11 manage.py migrate
 
 sudo docker-compose run --rm server python3.11 manage.py createsuperuser
+```
+
+Finally run these to get the container up and running:
+
+```bash
+sudo docker-compose up
 ```
 
 Copy the raw images to the "reductionmedia" folder. One suggestion to maintain file organization is to create a folder named "MYFOLDER" inside the "reductionmedia" directory and copy all files there.
