@@ -31,6 +31,7 @@ export default function RawQuery() {
         'flatblock',
         'scibyfilter',
         'flatbyfilter',
+        'set_conf'
     ]; // replace these with your links
 
     const [filter, setFilter] = useState('');

@@ -59,7 +59,7 @@ export default function Logs() {
                                     <p>Thread {item}</p>
                                     {value.map((obj, index) => (
                                         <div key={index}>
-                                            <small className={obj.toString().includes('CRITICAL') ? 'text-rose-500' : (obj.toString().includes('WARN') ? 'text-orange-500' : null)}>
+                                            <small className={obj.toString().includes('CRITICAL') ? 'text-rose-500' : (obj.toString().includes('WARN') ? 'text-orange-500' : (obj.toString().includes("TIME")) ? 'text-sky-600 font-extrabold' : null)}>
                                                 {obj.toString()}
                                             </small>
                                             <br />

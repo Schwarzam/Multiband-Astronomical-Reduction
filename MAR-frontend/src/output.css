@@ -740,12 +740,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 600px;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .h-6 {
   height: 1.5rem;
+}
+
+.h-10 {
+  height: 2.5rem;
 }
 
 .h-1\/2 {
@@ -828,12 +828,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 33.333333%;
 }
 
-.w-2\/3 {
-  width: 66.666667%;
-}
-
 .w-6 {
   width: 1.5rem;
+}
+
+.w-2\/3 {
+  width: 66.666667%;
 }
 
 .w-screen {
@@ -844,20 +844,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 0px;
 }
 
+.w-\[200px\] {
+  width: 200px;
+}
+
 .w-52 {
   width: 13rem;
 }
 
 .w-9 {
   width: 2.25rem;
-}
-
-.w-10 {
-  width: 2.5rem;
-}
-
-.w-\[200px\] {
-  width: 200px;
 }
 
 .max-w-5xl {
@@ -878,18 +874,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-2xl {
   max-width: 42rem;
-}
-
-.max-w-\[300px\] {
-  max-width: 300px;
-}
-
-.max-w-\[400px\] {
-  max-width: 400px;
-}
-
-.max-w-\[500px\] {
-  max-width: 500px;
 }
 
 .flex-1 {
@@ -1400,10 +1384,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1rem;
 }
 
-.text-\[6px\] {
-  font-size: 6px;
-}
-
 .text-\[9px\] {
   font-size: 9px;
 }
@@ -1486,6 +1466,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-orange-500 {
   --tw-text-opacity: 1;
   color: rgb(249 115 22 / var(--tw-text-opacity));
+}
+
+.text-sky-600 {
+  --tw-text-opacity: 1;
+  color: rgb(2 132 199 / var(--tw-text-opacity));
 }
 
 .shadow-sm {

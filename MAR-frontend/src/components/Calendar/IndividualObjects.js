@@ -2,7 +2,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import { getHeader } from "../Login/auth";
 
-class IndividualObjects{
+class IndividualObjects {
     objects = []
     schedules = {}
 
@@ -14,9 +14,9 @@ class IndividualObjects{
         }
 
         await axios.post(`${process.env.REACT_APP_SERVER_IP}/reduction/individualfile`, data, getHeader())
-            .then(res=>{
-                try{res.data = JSON.parse(res.data.replace(/\bNaN\b/g, "null"))}
-                catch{}
+            .then(res => {
+                try { res.data = JSON.parse(res.data.replace(/\bNaN\b/g, "null")) }
+                catch { }
                 result.push(res.data.msg[0])
             })
 
@@ -31,11 +31,11 @@ class IndividualObjects{
         }
 
         axios.post(`${process.env.REACT_APP_SERVER_IP}/reduction/individualfile`, data, getHeader())
-            .then(res=>{
-                try{res.data = JSON.parse(res.data.replace(/\bNaN\b/g, "null"))}
-                catch{}
+            .then(res => {
+                try { res.data = JSON.parse(res.data.replace(/\bNaN\b/g, "null")) }
+                catch { }
                 toast.success("Loaded individual files", { autoClose: 1000 });
-                if (res.status){
+                if (res.status) {
                     this.objects = []
                     this.schedules = {}
                     this.objects = this.objects.concat(res.data.msg)
@@ -45,15 +45,15 @@ class IndividualObjects{
                         date = new Date(obj.obsDate),
                         (!isNaN(date.getTime())
                             ?
-                                (dateIso = date.toISOString().substring(0, 10),
-                                    (!this.schedules[dateIso] ? this.schedules[dateIso] = 1
+                            (dateIso = date.toISOString().substring(0, 10),
+                                (!this.schedules[dateIso] ? this.schedules[dateIso] = 1
                                     :
                                     this.schedules[dateIso] = this.schedules[dateIso] + 1),
                                 updated = true)
                             :
                             console.log('detected invalid date'))
                     ))
-                    if (updated){
+                    if (updated) {
                         this.setObjects(calendarApi)
                     }
                 }
@@ -66,7 +66,7 @@ class IndividualObjects{
     setObjects = (calendarApi) => {
         for (const [key, value] of Object.entries(this.schedules)) {
             const e = calendarApi.getEventById(`ind${new Date(key).toISOString()}`)
-            if (e !== null){e.remove()}
+            if (e !== null) { e.remove() }
 
             calendarApi.addEvent({
                 id: `ind${new Date(key).toISOString()}`,
@@ -94,13 +94,14 @@ class IndividualObjects{
         }
 
         await axios.post(`${process.env.REACT_APP_SERVER_IP}/reduction/individualfile`, data, getHeader())
-            .then(res=>{
+            .then(res => {
                 var date
-                try{res.data = JSON.parse(res.data.replace(/\bNaN\b/g, "null"))}
-                catch{}
+                try { res.data = JSON.parse(res.data.replace(/\bNaN\b/g, "null")) }
+                catch { }
+                if (!res.data.msg) { return }
                 res.data.msg.forEach(obj => (
                     date = new Date(obj.obsDate),
-                        (!isNaN(date.getTime()) ? result.push(obj) : null)
+                    (!isNaN(date.getTime()) ? result.push(obj) : null)
                 ))
             })
         return result
@@ -113,7 +114,7 @@ class IndividualObjects{
         }
 
         await axios.post(`${process.env.REACT_APP_SERVER_IP}/reduction/individualfile`, data, getHeader())
-            .then(res=>{
+            .then(res => {
                 toast.success(`Changed validity of individualfile ${id}`)
             })
             .catch(err => {
@@ -129,7 +130,7 @@ class IndividualObjects{
         }
 
         await axios.post(`${process.env.REACT_APP_SERVER_IP}/reduction/individualfile`, data, getHeader())
-            .then(res=>{
+            .then(res => {
                 toast.success(`Set comment of individualfile ${id}`)
             })
             .catch(err => {
