@@ -9,6 +9,7 @@ export default function Logs() {
     const getLogs = () => {
         axios.post(`${process.env.REACT_APP_SERVER_IP}/reduction/get_logs`, null, getHeader())
             .then(res => {
+                if (!res.data.msg) { return }
                 setLogs(res.data.msg)
             })
             .catch(err => {
