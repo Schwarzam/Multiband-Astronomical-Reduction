@@ -143,3 +143,23 @@ These folders are created inside the reductionmedia folder, and are used by the 
 | TILES         | Coadded Tiles. Final Product. **                                                          |
 | TMP ~~unused~~ | Some test files are added here |
 
+
+Please cite:
+
+```
+@article{SCHWARZ2025100899,
+title = {MAR: A Multiband Astronomical Reduction package},
+journal = {Astronomy and Computing},
+volume = {51},
+pages = {100899},
+year = {2025},
+issn = {2213-1337},
+doi = {https://doi.org/10.1016/j.ascom.2024.100899},
+url = {https://www.sciencedirect.com/science/article/pii/S2213133724001148},
+author = {G.B. Oliveira Schwarz and F. Herpich and F. Almeida-Fernandes and L. Nakazono and N.M. Cardoso and E. Machado-Pereira and W. Schoenell and H.D. Perottoni and K. Menéndez-Delmestre and L. Sodré and A. Kanaan and T. Ribeiro},
+keywords = {Astronomical, Image, Multiband, Reduction, Pipeline, Software},
+abstract = {The Multiband Astronomical Reduction (MAR) is a multithreaded data reduction pipeline designed to handle raw astronomical images from the Southern Photometric Local Universe Survey, transforming them into frames that are ready for source extraction, photometry and flux calibration. MAR is a complete software written almost entirely in Python, with a flexible object-oriented approach, simplifying the implementation of new moduli. It contains a Python package, mar, with all essential operations to be used, a server where the pipeline resides, an interface that allows users to navigate quickly, and a database to store all data as well as important information and procedures applied to the images. MAR is now regularly used to process data from the Southern Photometric Local Universe Survey, but its methods may be used for developing other multiband data reduction packages. This paper explains each pipeline modulus of MAR and describes how its routines work.}
+}
+```
+
+
